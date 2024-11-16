@@ -1,0 +1,19 @@
+FROM weblab_uv:latest
+
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
+
+# uv venv
+#. .venv/bin/activate
+# python -V
+WORKDIR /root
+COPY llama.cpp /root/llama.cpp
+RUN uv add -r llama.cpp/requirements.txt
+ENV CC=/usr/bin/gcc
+ENV CXX=/usr/bin/g++
+RUN CMAKE_ARGS="-DGGAML_CUDA=on -DLLAVA_BUILD=off" FORCE_CMAKE=1 uv pip install llama-cpp-python
+WORKDIR /root/llama.cpp
+RUN make
+
+# deactivate
+CMD ["/bin/bash"]
