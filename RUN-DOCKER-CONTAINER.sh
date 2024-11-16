@@ -30,4 +30,7 @@ docker run -it --rm \
     --volume /tmp/.X11-unix:/tmp/.X11-unix \
     --name ${CONTAINER_NAME} \
     ${IMAGE_NAME} \
-    bash -c "cd /root/workspace && bash"
+    bash -c "echo 'source /root/workspace/.envrc' >> ~/.bashrc &&
+            echo '. /root/.venv/bin/activate' >> ~/.bashrc &&
+            cd /root/workspace &&
+            bash"
